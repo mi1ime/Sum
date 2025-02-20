@@ -13,18 +13,17 @@ export default class Cart {
 
     calculateTotalAmount(items: Buyable[]): number {
         let totalAmount: number = 0;
-        items.forEach(function(item) {
-            totalAmount += item.price;
-        });
+        totalAmount = items.reduce((currentSum, currentItem) => {
+            return currentSum + currentItem.price;
+        }, 0);
         return totalAmount;
     }
+
     calculateBonus(items: Buyable[], bonus: number): number {
-        let totalAmount: number = 0;
-        items.forEach(function(item) {
-            totalAmount += item.price;
-        });
-        return totalAmount - (totalAmount * (bonus/100));
+        const totalAmount = this.calculateTotalAmount(items);
+        return totalAmount - (totalAmount * (bonus / 100));
     }
+
     deleteFromCart(id: number): void {
         this._items = this._items.filter((item) => item.id !== id);
     }
